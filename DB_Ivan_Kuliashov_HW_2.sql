@@ -17,3 +17,16 @@ CREATE TABLE Order_Items (
     FOREIGN KEY (product_name) REFERENCES Products(p_name)
 );
 
+INSERT INTO Orders (order_date) VALUES
+('2023-10-01'),
+('2023-10-02');
+
+INSERT INTO Products (p_name, price) VALUES
+('p1', '$10.50'),
+('p2', '$20.75');
+
+INSERT INTO Order_Items (order_id, product_name, amount) VALUES
+(1, 'p1', DEFAULT),
+(1, 'p2', DEFAULT),
+(2, 'p1', 2.5),
+(2, 'p2', 3.0);
