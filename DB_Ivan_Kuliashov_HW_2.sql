@@ -30,3 +30,43 @@ INSERT INTO Order_Items (order_id, product_name, amount) VALUES
 (1, 'p2', DEFAULT),
 (2, 'p1', 2.5),
 (2, 'p2', 3.0);
+
+ALTER TABLE Products
+ADD COLUMN description TEXT NOT NULL DEFAULT 'No description';
+
+ALTER TABLE Orders
+ADD COLUMN status TEXT NOT NULL DEFAULT 'pending';
+
+ALTER TABLE Products
+ADD COLUMN p_id SERIAL;
+
+ALTER TABLE Order_Items
+DROP CONSTRAINT order_items_product_name_fkey;
+
+ALTER TABLE Products
+DROP CONSTRAINT products_pkey;
+
+ALTER TABLE Products
+ADD PRIMARY KEY (p_id);
+
+ALTER TABLE Products
+ADD CONSTRAINT unique_p_name UNIQUE (p_name);
+
+ALTER TABLE Order_Items
+ADD COLUMN price MONEY;
+
+UPDATE Order_Items
+SET price = (SELECT price FROM Products WHERE Products.p_name = Order_Items.product_name);
+
+ALTER TABLE Order_Items
+ADD COLUMN total MONEY;
+
+UPDATE Order_Items
+SET total = price * amount;
+
+ALTER TABLE Order_Items
+ALTER COLUMN price SET NOT NULL,
+ALTER COLUMN total SET NOT NULL;
+
+ALTER TABLE Order_Items
+ADD CONSTRAINT check_total CHECK (total = price * amount);
