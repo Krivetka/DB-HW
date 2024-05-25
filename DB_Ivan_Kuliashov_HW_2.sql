@@ -70,3 +70,37 @@ ALTER COLUMN total SET NOT NULL;
 
 ALTER TABLE Order_Items
 ADD CONSTRAINT check_total CHECK (total = price * amount);
+
+-- task 4
+
+UPDATE Products
+SET p_name = 'product1'
+WHERE p_name = 'p1';
+
+UPDATE Order_Items
+SET product_name = 'product1'
+WHERE product_name = 'p1';
+
+DELETE FROM order_items
+WHERE order_id = 1
+  AND product_name = 'p2';
+  
+DELETE FROM order_items
+WHERE order_id = 2;
+
+UPDATE Products
+SET price = '$5.00'
+WHERE p_name = 'product1';
+
+UPDATE Order_Items
+SET price = '$5.00',
+    total = CAST( '$5.00' as MONEY ) * amount
+WHERE product_name = 'product1';
+
+INSERT INTO Orders (order_date)
+VALUES (CURRENT_DATE);
+
+INSERT INTO Order_Items (order_id, product_name, amount, price, total)
+SELECT 3, 'product1', 3, price, price * 3
+FROM Products
+WHERE p_name = 'product1';
