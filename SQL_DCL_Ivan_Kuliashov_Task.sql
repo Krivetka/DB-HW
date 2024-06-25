@@ -12,7 +12,7 @@ CREATE ROLE rental;
 GRANT rental TO rentaluser;
 
 -- 4
-GRANT INSERT, UPDATE ON TABLE rental TO rental;
+GRANT INSERT, UPDATE, SELECT ON TABLE rental TO rental;
 
 INSERT INTO rental (rental_date, inventory_id, customer_id, return_date, staff_id, last_update)
 VALUES (current_timestamp, 1, 1, NULL, 1, current_timestamp);
